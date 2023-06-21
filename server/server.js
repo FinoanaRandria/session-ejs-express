@@ -30,7 +30,7 @@ app.use(session({
 
 
 app.get('/', (req,res)=>{
-  console.log(req.session);
+  req.session.isAuth = true;
   res.send('hello')
 })
 
