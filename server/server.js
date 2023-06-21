@@ -4,9 +4,9 @@ const mongoose= require('mongoose')
 const MongoDBSession= require('connect-mongodb-session')(session);
 const app = express()
 const port =3000
+const mongoUri ='mongodb://127.0.0.1:27017/session' 
 
-
-mongoose.connect('mongodb://127.0.0.1:27017/session', {
+mongoose.connect(mongoUri, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(() => {
@@ -15,10 +15,17 @@ mongoose.connect('mongodb://127.0.0.1:27017/session', {
   console.error('MongoDB connection error:', err);
 });
 
+
+const store = new MongoDBSession({
+  uri:mongoUri,
+  collection:"mySessions"
+})
+
 app.use(session({
   secret: 'key',
   resave: false,
-  saveUninitialized:false
+  saveUninitialized:false,
+  store:store
 }))
 
 
