@@ -5,7 +5,7 @@ const MongoDBSession= require('connect-mongodb-session')(session);
 const app = express()
 const port =3000
 const mongoUri ='mongodb://127.0.0.1:27017/session' 
-
+const userModel = require('./models/user');
 mongoose.connect(mongoUri, {
   useNewUrlParser: true,
   useUnifiedTopology: true
