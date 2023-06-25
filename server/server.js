@@ -6,6 +6,7 @@ const app = express()
 const port =3000
 const mongoUri ='mongodb://127.0.0.1:27017/session' 
 const userModel = require('./models/user');
+const bcrypt = require('bcryptjs')
 mongoose.connect(mongoUri, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -20,6 +21,9 @@ const store = new MongoDBSession({
   uri:mongoUri,
   collection:"mySessions"
 })
+app.set("view engine", "ejs")
+app.use(express.urlencoded({extended:true}));
+
 
 app.use(session({
   secret: 'key',
@@ -29,9 +33,35 @@ app.use(session({
 }))
 
 
+
 app.get('/', (req,res)=>{
   req.session.isAuth = true;
   res.send('hello')
+})
+
+app.get('/register',(req,res)=>{
+    res.render("register")
+})
+
+app.post('/register',async(req,res)=>{
+  const {username,email ,password } = req.body
+    
+  let user = await userModel.findOne(emai)
+  
+  if(user){
+     return res.redirect('/register')
+  }
+
+   const hashedPsw = await bcrypt.hash(password,12)
+ 
+  user = new userModel({
+    username,
+    email,
+    password:hashedPsw
+  })
+
+   await user.save();
+
 })
 
 
