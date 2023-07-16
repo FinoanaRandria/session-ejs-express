@@ -101,7 +101,7 @@ app.get('/dasboard',isAuth, (req,res)=>{
    res.render('dashboard')
 }) 
 
-
+//fonction log out
 app.post('/logout', (req, res) => {
   req.session.isAuth = false;
   req.session.destroy((err) => {
